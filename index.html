@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: orangered;
+        }
+        #logo{
+            color: wheat;
+            text-align: center;
+        }
+        #logoDiv{
+            background-color: black;
+            height: 51px;
+        }
+        #productForm{
+            
+            width: 40%;
+            height: 141px;
+            display: grid;
+            justify-content: center;
+            gap: 4%;
+            margin: auto;
+            margin-top: 34px;
+        }
+        #bottomdiv{
+            border: 1ps solid black;
+            width: 80%;
+            
+            margin: auto;
+        
+            margin-top: 45px;
+        }
+        #delete_id{
+            height: 24px;
+            width: 40%;
+            border-radius: 4px;
+            border: none;
+            margin-left: 144px;
+        }
+    </style>
+</head>
+<body>
+    <div id="logoDiv">
+
+        <h1 id="logo">ApniDukaan.com</h1>
+    </div>
+    <div id="productForm">
+
+
+    <input type="text" name="" id="product" placeholder=" Enter Product Name">
+    <input type="text" name="" id="name" placeholder="Enter Brand Name">
+    <input type="img" name="" id="image" placeholder= " Enter URL">
+    <input type="number" name="" id="price" placeholder="Enter Price">
+    <button onclick="addproduct(event)">ADD</button>
+</div>
+
+<div id="bottomdiv">
+
+    <input type="text" name="" id="delete_id">
+    <button id="deletebutton" onclick="deleteproduct()">Delete</button>
+</div>
+</body>
+</html>
+<script>
+   async function addproduct(){
+        event.preventDefault()
+        const data={
+            productName:document.getElementsByName("product").value,
+            name:document.getElementById("name").value,
+            image:document.getElementById("image").value,
+            price:document.getElementById("price").value
+        };
+
+        let response=await fetch('http://localhost:5000/api/products',{
+            method:'POST',
+
+            body:JSON.stringify(data),
+            headers:{ 'Content-Type':'application/json'},
+                  
+        });
+        let dat=await response.json()
+        console.log("ss",response)
+
+    }
+
+    async function deleteproduct(){
+        let id=document.getElementById("delete_id").value
+        let response=await fetch(`http://localhost:5000/api/products/${id}`,{
+            method:'DELETE',
+            headers:{ 'Content-Type':'application/json'},
+
+        });
+    
+        let dat=await response.json()
+        console.log("data",dat)
+    }
+</script> 
